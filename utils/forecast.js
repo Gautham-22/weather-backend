@@ -1,7 +1,7 @@
 const request = require('request');
 
 const forecast = (lat, long, callback) => {
-    const weatherURL = `http://api.weatherstack.com/current?access_key=${process.env.ACCESS_KEY}&query=${long},${lat}`;
+    const weatherURL = `http://api.weatherstack.com/current?access_key=${process.env.ACCESS_KEY}&query=${lat},${long}`;
 
     request({ url: weatherURL, json: true }, function (err, res) { 
         if(err) {
@@ -10,7 +10,6 @@ const forecast = (lat, long, callback) => {
             callback("Unable to find location.", undefined);
         } else {
             callback(undefined, res.body.current)
-            const current = res.body.current;
         }
     });
 };
