@@ -17,21 +17,22 @@ hbs.registerPartials(path.join(__dirname, "../views/partials"));
 app.get("", (req,res) => {
     res.render("index", {
         title: "Weather",
-        content: "Made by Gautham"
+        name: "Gautham"
     });
 })
 
 app.get("/about", (req,res) => {
     res.render("about", {
-        title: "About page",
-        content: "This is a weather application"
+        title: "About",
+        name: "Gautham"
     });
 })
 
 app.get("/help", (req,res) => {
     res.render("help", {
-        title: "Help page",
-        content: "This is some helpful text"
+        title: "Help",
+        content: "This is some helpful text",
+        name: "Gautham"
     });
 })
 
