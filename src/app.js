@@ -4,6 +4,8 @@ require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const hbs = require("hbs");
+const geocode = require("./utils/geocode");
+const forecast = require("./utils/forecast");
 
 const app = express();
 
@@ -14,6 +16,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.set("view engine","hbs");
 hbs.registerPartials(path.join(__dirname, "../views/partials"));
 
+// routes
 app.get("", (req,res) => {
     res.render("index", {
         title: "Weather",
@@ -36,23 +39,34 @@ app.get("/help", (req,res) => {
     });
 })
 
+// json endpoint
+app.get("/weather", (req,res) => {
+    if(req.query && !req.query.address) {
+        return res.send({
+            error: "Cannot find weather without address"
+        })
+    }
+
+    geocode(req.query.address, (error, data) => {
+        if(error) {
+            return res.send({
+                error
+            });
+        }
+        forecast(data.latitude, data.longitude, (error, currentWeather) => {
+            if(error) {
+                return res.send({
+                    error
+                });
+            }
+            res.send({
+                forecast: `It is currently ${currentWeather.temperature} degrees out. It feels like ${currentWeather.feelslike} degrees out.`
+            })
+        })
+    })
+})
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log("Server up running on PORT " + PORT);
 })
-
-// const geocode = require("./utils/geocode");
-// const forecast = require("./utils/forecast");
-
-// geocode("new york", (error, data) => {
-//     if(error) {
-//         return console.log(error);
-//     }
-//     forecast(data.latitude, data.longitude, (error, currentWeather) => {
-//         if(error) {
-//             return console.log(error);
-//         }
-//         console.log(data.location);
-//         console.log(`It is currently ${currentWeather.temperature} degrees out. It feels like ${currentWeather.feelslike} degrees out.`); 
-//     })
-// })
