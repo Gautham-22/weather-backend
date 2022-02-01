@@ -39,3 +39,17 @@ footer {
 .portrait {
     width: 250px;
 }
+
+input {
+    padding: 8px;
+    border: 1px solid #cccccc;
+    outline: none;
+}
+
+form button {
+    padding: 8px;
+    border: 1px solid #888888;
+    background: #888888;
+    color: white;
+    cursor: pointer;
+}

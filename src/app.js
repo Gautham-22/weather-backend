@@ -60,6 +60,7 @@ app.get("/weather", (req,res) => {
                 });
             }
             res.send({
+                location: data.location,
                 forecast: `It is currently ${currentWeather.temperature} degrees out. It feels like ${currentWeather.feelslike} degrees out.`
             })
         })
